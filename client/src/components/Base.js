@@ -2,7 +2,7 @@ import React, { PropTypes } from "react"
 import { Route, Switch, withRouter } from "react-router"
 import { NavLink } from "react-router-dom"
 import Home from "./Home"
-import ReduxDemoContainer from "containers/ReduxDemoContainer"
+import ReduxDemo from "./ReduxDemo"
 import s from "./Base.css"
 
 const Base = ({ railsContext, location, match }) => {
@@ -20,7 +20,7 @@ const Base = ({ railsContext, location, match }) => {
       <div className={s.main}>
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/redux-demo" component={ReduxDemoContainer} />
+          <Route path="/redux-demo" component={ReduxDemo} />
         </Switch>
       </div>
     </div>

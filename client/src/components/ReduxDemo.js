@@ -1,6 +1,8 @@
 import React from "react"
+import { connect } from "react-redux"
+import { changeName } from "actions"
 
-const ReduxDemo = ({ name, changeName }) => (
+let ReduxDemo = ({ name, changeName }) => (
   <div>
     <h3>Hello{name && `, ${name}`}!</h3>
     <form >
@@ -14,5 +16,9 @@ const ReduxDemo = ({ name, changeName }) => (
     </form>
   </div>
 )
+
+const mapStateToProps = state => ({ name: state.name })
+
+ReduxDemo = connect(mapStateToProps, { changeName })(ReduxDemo)
 
 export default ReduxDemo
