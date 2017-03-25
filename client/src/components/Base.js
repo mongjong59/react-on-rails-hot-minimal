@@ -1,41 +1,34 @@
 import React, { PropTypes } from "react"
-import { Route, Switch, withRouter } from "react-router"
+import { Provider } from "react-redux"
+import { ConnectedRouter } from "react-router-redux"
+import { Route, Switch } from "react-router"
 import { NavLink } from "react-router-dom"
 import Home from "./Home"
 import ReduxDemo from "./ReduxDemo"
 import s from "./Base.css"
 
-const Base = ({ railsContext, location, match }) => {
-  return (
-    <div>
-      <nav>
-        <div className={s.item}>
-          <NavLink to="/">Home</NavLink>
+const Base = ({ store, history }) => (
+  <Provider {...{ store }}>
+    <ConnectedRouter history={history}>
+      <div>
+        <nav>
+          <div className={s.item}>
+            <NavLink to="/">Home</NavLink>
+          </div>
+          <div className={s.item}>
+            <NavLink to="/redux-demo">Redux Demo</NavLink>
+          </div>
+        </nav>
+        <hr/>
+        <div className={s.main}>
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/redux-demo" component={ReduxDemo} />
+          </Switch>
         </div>
-        <div className={s.item}>
-          <NavLink to="/redux-demo">Redux Demo</NavLink>
-        </div>
-      </nav>
-      <hr/>
-      <div className={s.main}>
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/redux-demo" component={ReduxDemo} />
-        </Switch>
       </div>
-    </div>
-  )
-}
+    </ConnectedRouter>
+  </Provider>
+)
 
-Base.propTypes = {
-  railsContext: PropTypes.shape({ userAgent: PropTypes.string }),
-  match: PropTypes.shape({ url: PropTypes.string }),
-  location: PropTypes.shape({
-    hash: PropTypes.string,
-    pathname: PropTypes.string,
-    key: PropTypes.string,
-    search: PropTypes.string
-  })
-}
-
-export default withRouter(Base)
+export default Base

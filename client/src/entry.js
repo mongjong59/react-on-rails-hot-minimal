@@ -1,11 +1,11 @@
-/* global window document */
+/* global document */
 
 import React from "react"
 import { applyMiddleware, createStore } from "redux"
 import { AppContainer } from "react-hot-loader"
 import { Provider } from "react-redux"
 import createBrowserHistory from "history/createBrowserHistory"
-import { routerMiddleware, ConnectedRouter } from "react-router-redux"
+import { routerMiddleware } from "react-router-redux"
 import { Route } from "react-router"
 import reducer from "reducer"
 import { render } from "react-dom"
@@ -14,7 +14,7 @@ import Base from "components/Base"
 
 const history = createBrowserHistory()
 
-const store = (props) => {
+const configureStore = (props) => {
   const enhancers = applyMiddleware(routerMiddleware(history))
   return createStore(reducer, props, enhancers)
 }
@@ -28,27 +28,23 @@ consoleErrorReporter.propTypes = {
 }
 
 const App = (props, railsContext, domNodeId) => {
-  const appStore = ReactOnRails.getStore("store")
+  const store = ReactOnRails.getStore("store")
   const renderApp = (Component) => {
     const element = (
       <AppContainer errorReporter={consoleErrorReporter}>
-        <Provider store={appStore}>
-          <ConnectedRouter history={history}>
-            <Component {...props} {...{ railsContext }} />
-          </ConnectedRouter>
-        </Provider>
+        <Component {...{ store, history }} />
       </AppContainer>
     )
     render(element, document.getElementById(domNodeId))
   }
   renderApp(Base)
   if (module.hot) {
-    module.hot.accept("components/Base", () => { renderApp(Base) })
-    module.hot.accept("reducer", () => {
-      appStore.replaceReducer(reducer)
+    module.hot.accept(["reducer", "components/Base"], () => {
+      store.replaceReducer(reducer)
+      renderApp(Base)
     })
   }
 }
 
-ReactOnRails.registerStore({ store })
+ReactOnRails.registerStore({ store: configureStore })
 ReactOnRails.register({ App })
