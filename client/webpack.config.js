@@ -3,17 +3,18 @@ const path = require("path")
 
 const nodeEnv = process.env.NODE_ENV || "development"
 
+const PORT = 8080
+
 const config = {
   entry: [
     "babel-polyfill",
     "react-hot-loader/patch",
-    "webpack-dev-server/client?http://localhost:3500",
     "entry"
   ],
 
   output: {
     filename: "hmr-bundle.js",
-    publicPath: "http://localhost:3500/"
+    publicPath: `http://localhost:${PORT}/`
   },
 
   resolve: {
@@ -48,7 +49,8 @@ const config = {
   },
 
   devServer: {
-    port: 3500,
+    host: "0.0.0.0",
+    port: PORT,
     hot: true,
     stats: {
       hash: false,
