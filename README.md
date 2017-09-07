@@ -13,7 +13,17 @@ A minimal React on Rails implementation of HMR with React Hot Loader 3, Redux, R
 
 - add `"react-hot-loader"` to `package.json`
 - use `es2015` preset, disable `modules` and add `"react-hot-loader/babel"` plugin in `.babelrc`
-- add `"react-hot-loader/patch"`, `"webpack-dev-server/client?http://localhost:3500"` to webpack `entry` before your source file (in the same chunk that contains your source file if you have multiple chunks)
+- add `"react-hot-loader/patch"` right before your source entry file in your webpack config like:
+```
+// webpack.config.js
+...
+  entry: [
+    "babel-polyfill",
+    "react-hot-loader/patch",
+    "mySourceEntry"
+  ],
+...
+```
 - add `new webpack.HotModuleReplacementPlugin()` to webpack `plugins`
 - set up dev server with `hot: true` or `hotOnly: true`
 - wrap elements in `AppContainer` from `react-hot-loader`
