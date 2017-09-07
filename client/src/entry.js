@@ -1,6 +1,7 @@
 /* global document */
 
 import React from "react"
+import PropTypes from "prop-types"
 import { applyMiddleware, createStore } from "redux"
 import { AppContainer } from "react-hot-loader"
 import { Provider } from "react-redux"
@@ -24,7 +25,7 @@ const consoleErrorReporter = ({ error }) => {
   return null
 }
 consoleErrorReporter.propTypes = {
-  error: React.PropTypes.instanceOf(Error).isRequired
+  error: PropTypes.instanceOf(Error).isRequired
 }
 
 const App = (props, railsContext, domNodeId) => {

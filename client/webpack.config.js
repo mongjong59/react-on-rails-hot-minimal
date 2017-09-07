@@ -51,6 +51,7 @@ const config = {
   devServer: {
     host: "0.0.0.0",
     port: PORT,
+    headers: { "Access-Control-Allow-Origin": "http://localhost:3000" },
     hot: true,
     stats: {
       hash: false,
